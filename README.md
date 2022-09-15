@@ -1,6 +1,6 @@
 # Authentifier des utilisateurs et simuler un mode connecté
 
-## Auteur(s)
+## Auteur(s) LEMONT Gaétan
 
 ## Installation / Configuration
 
