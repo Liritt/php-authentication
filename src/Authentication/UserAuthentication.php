@@ -13,6 +13,9 @@ class UserAuthentication
     private const LOGIN_INPUT_NAME = 'login';
     private const PASSWORD_INPUT_NAME = 'password';
 
+    public const SESSION_KEY = '__UserAuthentification';
+    public const SESSION_USER_KEY = 'user';
+
     public function loginForm(string $action, string $submitText = 'OK'): string
     {
         $const1 = self::LOGIN_INPUT_NAME;
