@@ -22,7 +22,7 @@ class UserProfile
                 <p>Nom: {$this->escapeString($this->user->getLastName())}
                 <p>Pnom: {$this->escapeString($this->user->getFirstName())}
                 <p>Login: {$this->escapeString($this->user->getLogin())}
-                <p>Login: {$this->escapeString($this->user->getPhone())}
+                <p>Tel: {$this->escapeString($this->user->getPhone())}
 HTML;
     }
 }

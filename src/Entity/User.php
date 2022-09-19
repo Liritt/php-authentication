@@ -75,7 +75,7 @@ SQL
 
         $user = $stmt->fetch();
 
-        if ($user == null) {
+        if ($user === false) {
             throw new EntityNotFoundException("Login ou mot de passe faux");
         }
         return $user;

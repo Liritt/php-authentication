@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Authentication\UserAuthentication;
 use Authentication\Exception\AuthenticationException;
-use Html\Helper\Dumper;
 use Html\WebPage;
 
 $authentication = new UserAuthentication();
@@ -19,6 +18,9 @@ try {
 <div>Bonjour {$user->getFirstName()}</div>
 HTML
     );
+
+    var_dump($_SESSION[UserAuthentication::SESSION_KEY][UserAuthentication::SESSION_USER_KEY]);
+
 } catch (AuthenticationException $e) {
     // Récupération de l'exception si connexion échouée
     $p->appendContent("Échec d'authentification&nbsp;: {$e->getMessage()}");
