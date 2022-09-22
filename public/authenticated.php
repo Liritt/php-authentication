@@ -20,7 +20,7 @@ $p = new WebPage($title);
 $p->appendContent(
     <<<HTML
         <h1>Zone membre connecté</h1>
-        <h2>Bienvenue, {$authentication->getUser()->getFirstName()}</h2>
+        <h2>Bienvenue, <a href="user.php">{$authentication->getUser()->getFirstName()}</a></h2>
 HTML
 );
 

@@ -35,7 +35,7 @@ try {
 HTML
     );
 } catch(NotLoggedInException) {
-    $form = $authentication->loginForm('auth.php');
+    $form = $authentication->loginForm('user.php');
     $p->appendContent(
         <<<HTML
     {$form}
