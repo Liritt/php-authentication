@@ -9,6 +9,7 @@ use Entity\Exception\EntityNotFoundException;
 use Entity\User;
 use Service\Exception\SessionException;
 use Service\Session;
+use Symfony\Component\Console\Helper\Helper;
 
 class UserAuthentication
 {
@@ -61,11 +62,14 @@ HTML;
         return $user;
     }
 
+    /**
+     * @throws SessionException
+     */
     public function isUserConnected(): bool
     {
-        if (isset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY]) && $_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY] instanceof $this->user) {
-            return true;
-        }
-        return false;
+        Session::start();
+
+        return isset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY])
+            && $_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY] instanceof User;
     }
 }

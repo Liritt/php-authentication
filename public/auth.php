@@ -19,8 +19,6 @@ try {
 HTML
     );
 
-    var_dump($_SESSION[UserAuthentication::SESSION_KEY][UserAuthentication::SESSION_USER_KEY]);
-
 } catch (AuthenticationException $e) {
     // Récupération de l'exception si connexion échouée
     $p->appendContent("Échec d'authentification&nbsp;: {$e->getMessage()}");
