@@ -7,21 +7,35 @@ use Html\WebPage;
 
 // Création de l'authentification
 $authentication = new UserAuthentication();
-
+$authentication->logoutIfRequested();
 $p = new WebPage('Authentification');
 
 // Production du formulaire de connexion
-$p->appendCSS(<<<CSS
+$p->appendCSS(
+    <<<CSS
     form input {
-        width : 4em ;
+        width : 7em ;
     }
 CSS
 );
-$form = $authentication->loginForm('auth.php');
-$p->appendContent(<<<HTML
+if ($authentication->isUserConnected()) {
+    $form = $authentication->logoutForm('form.php', 'déconnexion');
+    $p->appendContent(
+        <<<HTML
+    {$form}
+    <br>
+HTML
+    );
+} else {
+    $form = $authentication->loginForm('auth.php');
+    $p->appendContent(
+        <<<HTML
     {$form}
     <p>Pour faire un test : essai/toto
 HTML
-);
+    );
+}
+
+
 
 echo $p->toHTML();

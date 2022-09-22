@@ -16,8 +16,12 @@ class UserAuthentication
     private const LOGIN_INPUT_NAME = 'login';
     private const PASSWORD_INPUT_NAME = 'password';
 
-    public const SESSION_KEY = '__UserAuthentification__';
-    public const SESSION_USER_KEY = 'user';
+    private const SESSION_KEY = '__UserAuthentification__';
+    private const SESSION_USER_KEY = 'user';
+
+    private const LOGOUT_INPUT_NAME = 'logout';
+
+
 
     private ?User $user = null;
 
@@ -71,5 +75,25 @@ HTML;
 
         return isset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY])
             && $_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY] instanceof User;
+    }
+
+    public function logoutForm(string $action, string $text): string
+    {
+        $nameInput = self::LOGOUT_INPUT_NAME;
+        $html = "<form action={$action} method='post'>
+                    <input type='submit' name='{$nameInput}' value='{$text}'>
+                 </form>";
+        return $html;
+    }
+
+    /**
+     * @throws SessionException
+     */
+    public function logoutIfRequested(): void
+    {
+        Session::start();
+        if (isset($_POST[self::LOGOUT_INPUT_NAME])) {
+            unset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY]);
+        }
     }
 }
