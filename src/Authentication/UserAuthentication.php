@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Authentication;
 
 use Authentication\Exception\AuthenticationException;
+use Authentication\Exception\NotLoggedInException;
 use Entity\Exception\EntityNotFoundException;
 use Entity\User;
 use Service\Exception\SessionException;
@@ -32,7 +33,7 @@ class UserAuthentication
         return <<<HTML
                 <form action="$action" method="post">
                     <input type="text" name="{$const1}" placeholder="{$const1}">
-                    <input type="text" name="{$const2}" placeholder="{$const2}">
+                    <input type="password" name="{$const2}" placeholder="{$const2}">
                     <input type="submit" value="{$submitText}">
                 </form>
 HTML;
@@ -94,6 +95,44 @@ HTML;
         Session::start();
         if (isset($_POST[self::LOGOUT_INPUT_NAME])) {
             unset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY]);
+            $this->user = null;
+        }
+    }
+
+    /**
+     * @throws NotLoggedInException
+     * @throws SessionException
+     */
+    protected function getUserFromSession(): User
+    {
+        Session::start();
+        if (!isset($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY]) || !($_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY] instanceof User)) {
+            throw new NotLoggedInException("Vous n'êtes pas connecté");
+        }
+        return $_SESSION[self::SESSION_KEY][self::SESSION_USER_KEY];
+    }
+
+    /**
+     * @throws NotLoggedInException
+     * @throws SessionException
+     */
+    public function __construct()
+    {
+        try {
+            $this->user = $this->getUserFromSession();
+        } catch (NotLoggedInException) {
+        }
+    }
+
+    /**
+     * @throws NotLoggedInException
+     */
+    public function getUser(): User
+    {
+        if (isset($this->user)) {
+            return $this->user;
+        } else {
+            throw new NotLoggedInException("Vous n'êtes pas connecté");
         }
     }
 }

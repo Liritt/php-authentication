@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
+use Authentication\Exception\NotLoggedInException;
 use Authentication\UserAuthentication;
+use Html\UserProfile;
 use Html\WebPage;
 
 // Création de l'authentification
 $authentication = new UserAuthentication();
+
 $authentication->logoutIfRequested();
+
 $p = new WebPage('Authentification');
 
 // Production du formulaire de connexion
@@ -18,15 +22,19 @@ $p->appendCSS(
     }
 CSS
 );
-if ($authentication->isUserConnected()) {
+
+try {
+    $user = $authentication->getUser();
     $form = $authentication->logoutForm('form.php', 'déconnexion');
+    $userProfile = new UserProfile($user);
     $p->appendContent(
         <<<HTML
     {$form}
+    {$userProfile->toHtml()}
     <br>
 HTML
     );
-} else {
+} catch(NotLoggedInException) {
     $form = $authentication->loginForm('auth.php');
     $p->appendContent(
         <<<HTML
@@ -35,7 +43,5 @@ HTML
 HTML
     );
 }
-
-
 
 echo $p->toHTML();
