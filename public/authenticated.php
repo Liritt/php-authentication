@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Authentication\UserAuthentication;
-use Html\WebPage;
+use Html\AppWebPage;
 
 $authentication = new UserAuthentication();
 
@@ -15,7 +15,7 @@ if (!$authentication->isUserConnected()) {
 }
 
 $title = 'Zone membre';
-$p = new WebPage($title);
+$p = new AppWebPage($title);
 
 $p->appendContent(
     <<<HTML

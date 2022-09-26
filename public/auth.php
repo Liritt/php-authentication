@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use Authentication\UserAuthentication;
 use Authentication\Exception\AuthenticationException;
-use Html\WebPage;
+use Html\AppWebPage;
 
 $authentication = new UserAuthentication();
 
-$p = new WebPage('Authentification');
+$p = new AppWebPage('Authentification');
 
 try {
     // Tentative de connexion

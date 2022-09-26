@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 use Authentication\Exception\NotLoggedInException;
 use Authentication\UserAuthentication;
+use Html\AppWebPage;
 use Html\UserProfile;
-use Html\WebPage;
 
 // Création de l'authentification
 $authentication = new UserAuthentication();
 
 $authentication->logoutIfRequested();
 
-$p = new WebPage('Authentification');
+$p = new AppWebPage('Authentification');
 
 // Production du formulaire de connexion
 $p->appendCSS(
