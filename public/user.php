@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 use Authentication\Exception\NotLoggedInException;
 use Authentication\UserAuthentication;
-use Authentication\Exception\AuthenticationException;
-use Html\UserProfile;
-use Html\WebPage;
+use Html\AppWebPage;
+use Html\UserProfileWithAvatar;
 
 $authentication = new UserAuthentication();
 
-$p = new WebPage('Authentification');
+$p = new AppWebPage('Authentification');
 
 try {
     // Tentative de connexion
     $user = $authentication->getUser();
-    $userProfile = new UserProfile($user);
+    $userProfile = new UserProfileWithAvatar($user);
     $p->appendContent(
         <<<HTML
-<div>{$authentication->logoutForm('form.php', 'Se déconnecter')} Bonjour {$userProfile->toHtml()}</div>
+<div>{$authentication->logoutForm('form.php', 'Se déconnecter')} {$userProfile->toHtml()}</div>
 HTML
     );
 
