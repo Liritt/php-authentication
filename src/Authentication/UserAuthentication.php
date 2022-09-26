@@ -113,7 +113,6 @@ HTML;
     }
 
     /**
-     * @throws NotLoggedInException
      * @throws SessionException
      */
     public function __construct()
