@@ -16,13 +16,18 @@ class UserProfile
         $this->user = $user;
     }
 
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
     public function toHtml(): string
     {
         return <<<HTML
                 <p>Nom: {$this->escapeString($this->user->getLastName())}
                 <p>Pnom: {$this->escapeString($this->user->getFirstName())}
                 <p>Login: {$this->escapeString($this->user->getLogin())}
-                <p>Tel: {$this->escapeString($this->user->getPhone())}
+                <p>Tel: {$this->escapeString($this->user->getPhone())}</p>
 HTML;
     }
 }

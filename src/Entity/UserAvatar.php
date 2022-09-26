@@ -13,6 +13,10 @@ class UserAvatar
     private int $id;
     private ?string $avatar;
 
+    protected function __construct()
+    {
+    }
+
     /**
      * @return int
      */
