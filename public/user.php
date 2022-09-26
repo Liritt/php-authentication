@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Authentication\Exception\NotLoggedInException;
 use Authentication\UserAuthentication;
 use Authentication\Exception\AuthenticationException;
 use Html\UserProfile;
@@ -13,17 +14,18 @@ $p = new WebPage('Authentification');
 
 try {
     // Tentative de connexion
-    $user = $authentication->getUserFromAuth();
+    $user = $authentication->getUser();
     $userProfile = new UserProfile($user);
     $p->appendContent(
         <<<HTML
-<div>Bonjour {$userProfile->toHtml()}</div>
+<div>{$authentication->logoutForm('form.php', 'Se déconnecter')} Bonjour {$userProfile->toHtml()}</div>
 HTML
     );
 
-} catch (AuthenticationException $e) {
+} catch (NotLoggedInException $e) {
     // Récupération de l'exception si connexion échouée
-    $p->appendContent("Échec d'authentification&nbsp;: {$e->getMessage()}");
+    header("Location: form.php");
+    exit(0);
 } catch (Exception $e) {
     $p->appendContent("Un problème est survenu&nbsp;: {$e->getMessage()}");
 }
