@@ -66,4 +66,18 @@ SQL
         $this->avatar = $avatar;
         return $this;
     }
+
+    public function save(): self
+    {
+        $request = MyPdo::getInstance()->prepare(
+            <<<'SQL'
+        UPDATE user (avatar)
+        SET avatar = :avatar
+        WHERE id = :id
+SQL
+        );
+        $request->execute(['id' => $this->getId(), 'avatar' => $this->getAvatar()]);
+
+        return $this;
+    }
 }
