@@ -1,24 +1,38 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Html;
 
-use Authentication\UserAuthentication;
-use Service\Exception\SessionException;
-use Service\Session;
+use Entity\User;
 
 class UserProfileWithAvatar extends UserProfile
 {
+    public const AVATAR_INPUT_NAME = 'avatar';
+
+    private string $formAction;
+
     /**
-     * @throws SessionException
+     * @param User $user
+     * @param string $formAction
      */
+    public function __construct(User $user, string $formAction)
+    {
+        parent::__construct($user);
+        $this->formAction = $formAction;
+    }
+
     public function toHtml(): string
     {
-        Session::start();
         $userId = parent::getUser()->getId();
         $html = parent::toHtml();
+        $const = self::AVATAR_INPUT_NAME;
         $html .= <<<HTML
-<img src="avatar.php?userId={$userId}" alt="avatar" />
+        <img src="avatar.php?userId={$userId}" alt="avatar" />
+        <form action="{$this->formAction}" method="post" enctype="multipart/form-data">
+            <input name="{$const}" type="file">Choose file
+            <input type="submit" value="Mettre à jour">
+        </form>
 HTML;
         return $html;
     }
