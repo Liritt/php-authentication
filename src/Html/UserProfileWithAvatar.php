@@ -33,7 +33,7 @@ class UserProfileWithAvatar extends UserProfile
         $html .= <<<HTML
         <img src="avatar.php?userId={$userId}" alt="avatar" />
         <form action="{$this->formAction}" method="post" enctype="multipart/form-data">
-            <input name="{$const}" type="file">
+            Changer: <input name="{$const}" type="file">
             <input type="submit" value="Mettre à jour">
         </form>
 HTML;
@@ -45,13 +45,14 @@ HTML;
      */
     public function updateAvatar(): bool
     {
-        if (self::AVATAR_INPUT_NAME !== null
-            && UPLOAD_ERR_OK
-            && $_FILES['file']['size'] > 0
-            && is_uploaded_file($_FILES['file'])
-            && UserAvatar::isValidFile()) {
+        if (isset($_FILES[self::AVATAR_INPUT_NAME])
+            && $_FILES[self::AVATAR_INPUT_NAME]['error'] === UPLOAD_ERR_OK
+            && $_FILES[self::AVATAR_INPUT_NAME]['size'] > 0
+            && is_uploaded_file($_FILES[self::AVATAR_INPUT_NAME]['tmp_name'])
+            && UserAvatar::isValidFile($_FILES[self::AVATAR_INPUT_NAME]['tmp_name'])) {
+
             $currAvatar = UserAvatar::findById($this->getUser()->getId());
-            $currAvatar->setAvatar(file_get_contents(['file']['tmp_name']));
+            $currAvatar->setAvatar(file_get_contents($_FILES[self::AVATAR_INPUT_NAME]['tmp_name']));
             $currAvatar->save();
             return true;
         }

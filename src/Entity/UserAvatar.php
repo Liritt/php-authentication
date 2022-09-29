@@ -71,8 +71,8 @@ SQL
     {
         $request = MyPdo::getInstance()->prepare(
             <<<'SQL'
-        UPDATE user (avatar)
-        SET avatar = :avatar
+        INSERT INTO user (avatar)
+        VALUE avatar = (:avatar)
         WHERE id = :id
 SQL
         );
@@ -86,10 +86,10 @@ SQL
         return 65535;
     }
 
-    public static function isValidFile(): bool
+    public static function isValidFile(string $filename): bool
     {
-        if (mime_content_type($_FILES['file']['type']) == 'image/png'
-            && getimagesize($_FILES['file']['size']) <= self::maxFileSize()) {
+        if (mime_content_type($filename) == 'image/png'
+            && getimagesize($filename)[0]*getimagesize($filename)[1] <= self::maxFileSize()) {
             return true;
         }
         return false;
