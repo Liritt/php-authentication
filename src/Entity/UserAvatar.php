@@ -71,12 +71,12 @@ SQL
     {
         $request = MyPdo::getInstance()->prepare(
             <<<'SQL'
-        UPDATE user (avatar)
+        UPDATE user
         SET avatar = :avatar
         WHERE id = :id
 SQL
         );
-        $request->execute(['id' => $this->getId(), 'avatar' => $this->getAvatar()]);
+        $request->execute(['id' => $this->id, 'avatar' => $this->avatar]);
 
         return $this;
     }
@@ -88,10 +88,6 @@ SQL
 
     public static function isValidFile(string $filename): bool
     {
-        if (mime_content_type($filename) == 'image/png'
-            && getimagesize($filename)[0]*getimagesize($filename)[1] <= self::maxFileSize()) {
-            return true;
-        }
-        return false;
+        return mime_content_type($filename) == "image/png" && getimagesize($filename);
     }
 }
