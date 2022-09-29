@@ -15,12 +15,15 @@ try {
     // Tentative de connexion
     $user = $authentication->getUser();
     $userProfile = new UserProfileWithAvatar($user, $_SERVER['PHP_SELF']);
+    $userProfile->updateAvatar();
     $p->appendContent(
         <<<HTML
-<div>{$authentication->logoutForm('form.php', 'Se déconnecter')} {$userProfile->toHtml()}</div>
+    <div>
+        {$authentication->logoutForm('form.php', 'Se déconnecter')} 
+        {$userProfile->toHtml()}
+    </div>
 HTML
     );
-
 } catch (NotLoggedInException $e) {
     // Récupération de l'exception si connexion échouée
     header("Location: form.php");

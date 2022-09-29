@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Html;
 
 use Entity\User;
+use Html\Helper\Dumper;
 
 class UserProfileWithAvatar extends UserProfile
 {
@@ -30,10 +31,16 @@ class UserProfileWithAvatar extends UserProfile
         $html .= <<<HTML
         <img src="avatar.php?userId={$userId}" alt="avatar" />
         <form action="{$this->formAction}" method="post" enctype="multipart/form-data">
-            <input name="{$const}" type="file">Choose file
+            <input name="{$const}" type="file">
             <input type="submit" value="Mettre à jour">
         </form>
 HTML;
         return $html;
+    }
+
+    public function updateAvatar(): bool
+    {
+        echo Dumper::dump($_FILES);
+        return true;
     }
 }
