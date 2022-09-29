@@ -47,10 +47,11 @@ HTML;
     {
         if (self::AVATAR_INPUT_NAME !== null
             && UPLOAD_ERR_OK
-            && $_FILES['user.php']['size'] > 0
-            && is_uploaded_file($_FILES['user.php'])) {
+            && $_FILES['file']['size'] > 0
+            && is_uploaded_file($_FILES['file'])
+            && UserAvatar::isValidFile()) {
             $currAvatar = UserAvatar::findById($this->getUser()->getId());
-            $currAvatar->setAvatar(file_get_contents(['user.php']['phpHp9nlV']));
+            $currAvatar->setAvatar(file_get_contents(['file']['tmp_name']));
             $currAvatar->save();
             return true;
         }

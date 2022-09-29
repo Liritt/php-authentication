@@ -80,4 +80,18 @@ SQL
 
         return $this;
     }
+
+    public static function maxFileSize(): int
+    {
+        return 65535;
+    }
+
+    public static function isValidFile(): bool
+    {
+        if (mime_content_type($_FILES['file']['type']) == 'image/png'
+            && getimagesize($_FILES['file']['size']) <= self::maxFileSize()) {
+            return true;
+        }
+        return false;
+    }
 }
