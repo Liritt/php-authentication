@@ -71,8 +71,8 @@ SQL
     {
         $request = MyPdo::getInstance()->prepare(
             <<<'SQL'
-        INSERT INTO user (avatar)
-        VALUE avatar = (:avatar)
+        UPDATE user (avatar)
+        SET avatar = :avatar
         WHERE id = :id
 SQL
         );
