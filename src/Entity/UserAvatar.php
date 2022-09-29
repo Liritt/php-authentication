@@ -56,4 +56,14 @@ SQL
 
         return $user;
     }
+
+    /**
+     * @param string|null $avatar
+     * @return UserAvatar
+     */
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
+        return $this;
+    }
 }
